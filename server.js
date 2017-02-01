@@ -1,10 +1,11 @@
 // Eat-Da-Burger application
 
 // require npm packages
-var app = require('express');
+var express = require('express');
 var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
 
+// setup express server
 var app = express();
 var PORT = 3000;
 
@@ -21,8 +22,13 @@ var exphbs = require("express-handlebars");
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
+// include routes
+var routes = require('./controllers/burgers_controller');
 
+// use routes
+app.use('/', routes);
 
-app.listen(port, function() {
+// initialize server on port
+app.listen(PORT, function() {
 	console.log("Listening on PORT " + PORT);
 });

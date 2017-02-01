@@ -1,19 +1,40 @@
-module.exports = {
+var connection = require('./../config/connection');
 
-	var connection = require('./connection');
-
-	selectAll: function(connection, callback) {
-		connection.query('SELECT * FROM `burgers`', callback);
+var orm = {
+	selectAll: function(table, callback) {
+		connection.query('SELECT * FROM ' + table, function(err, result){
+			if (err) throw err;
+			callback(result);
+		});
 	},
 
-	insertOne: function(connection, burger, callback) {
-		connection.query('INSERT INTO (burger_name, devoured, date) VALUES (burger, 0, CURRENT_TIMESTAMP)', callback);
+	insertOne: function(table, columns, values, callback) {
+		var queryString = "INSERT INTO ";
+		queryString += table;
+		queryString += ' (';
+		queryString += columns;
+		queryString += ') VALUES (';
+		queryString += '"' + values[0] + '", "' + values[1] + '", ' + values[2];
+		queryString += ')';
+		connection.query(queryString, function(err, result) {
+			if (err) throw err;
+			callback(result);
+		});
 	},
 
-	updateOne: function(connection, id, callback) {
-		connection.query('UPDATE burgers SET ? WHERE id = ?', [{burger_name: burger}, {devoured: 1}, {date: CURRENT_TIMESTAMP}], callback);
+	updateOne: function(table, values, condition, callback) {
+		var queryString = 'UPDATE ';
+		queryString += table;
+		queryString += ' SET ';
+		queryString += values;
+		queryString += ' WHERE ';
+		queryString += condition;
+		connection.query(queryString, function(err, result) {
+			if (err) throw err;
+			callback(result);
+		});
 	}
 
+};
 
-
-}
+module.exports = orm;

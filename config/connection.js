@@ -1,5 +1,3 @@
-module.exports = function(port) {
-
 	var mysql = require('mysql');
 
 	var connection = mysql.createConnection({
@@ -17,5 +15,4 @@ module.exports = function(port) {
 		console.log("connected as id " + connection.threadId);
 	});
 
-}
-
+module.exports = connection;
