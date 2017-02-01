@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 // setup express server
 var app = express();
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 
 // serve the static css file from the public directory
 app.use(express.static(process.cwd() + "/public"));
